@@ -18,16 +18,21 @@ class ArticlesController < ApplicationController
         # whitelist the :title & description data in the article hash:
         @article = Article.new(params.require(:article).permit(:title, :description))
         #render plain: @article.inspect
-        @article.save
-        # url is created by 'article_path' => articles (Routes files for articles#show is /articles/:id)
-        # and the @article will pull out the :id to create articles/:id
-        #redirect_to article_path(@article)
-        #short hand for above is this : 
-        redirect_to @article
+        if @article.save
+            flash[:notice] = "Article was created successfully."
+            # url is created by 'article_path' => articles (Routes files for articles#show is /articles/:id)
+            # and the @article will pull out the :id to create articles/:id
+            #redirect_to article_path(@article)
+            #short hand for above is this : 
+            redirect_to @article
+        else 
+            render 'new'
+        end
 
     end
 
     def new
+        @article = Article.new
     end
 
 
