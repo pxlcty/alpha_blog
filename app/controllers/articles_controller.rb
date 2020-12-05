@@ -9,6 +9,15 @@ class ArticlesController < ApplicationController
         @article = Article.find(params[:id])
     end
 
+    def new
+        @article = Article.new
+    end
+
+    def edit
+        #byebug
+        @article = Article.find(params[:id])
+    end
+
     def create
         # in the Rails S output we can see the Parameter hash.
         # in that hash, we can see one of the keys are "article" hence we pull it out below to display basic output.
@@ -31,9 +40,17 @@ class ArticlesController < ApplicationController
 
     end
 
-    def new
-        @article = Article.new
+    def update
+        #byebug
+        @article = Article.find(params[:id])
+        if @article.update(params.require(:article).permit(:title, :description))
+            flash[:notice] = "Article was updated successfully."
+            redirect_to @article
+        else
+            render 'edit'
+        end
     end
+
 
 
 
