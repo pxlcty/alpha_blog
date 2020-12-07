@@ -1,12 +1,14 @@
 class ArticlesController < ApplicationController
 
+    before_action :set_article, only: [:show, :edit, :update, :destroy]
+
     def index
         @articles = Article.all
     end
 
     def show
         #byebug
-        @article = Article.find(params[:id])
+        
     end
 
     def new
@@ -15,7 +17,7 @@ class ArticlesController < ApplicationController
 
     def edit
         #byebug
-        @article = Article.find(params[:id])
+        
     end
 
     def create
@@ -25,7 +27,7 @@ class ArticlesController < ApplicationController
         # with that :article key we can use that to create to the DB : 
         # @article = Article.new(params[:article]) # won't work
         # whitelist the :title & description data in the article hash:
-        @article = Article.new(params.require(:article).permit(:title, :description))
+        @article = Article.new(article_params_white_wash)
         #render plain: @article.inspect
         if @article.save
             flash[:notice] = "Article was created successfully."
@@ -42,8 +44,8 @@ class ArticlesController < ApplicationController
 
     def update
         #byebug
-        @article = Article.find(params[:id])
-        if @article.update(params.require(:article).permit(:title, :description))
+        
+        if @article.update(article_params_white_wash)
             flash[:notice] = "Article was updated successfully."
             redirect_to @article
         else
@@ -52,9 +54,18 @@ class ArticlesController < ApplicationController
     end
 
     def destroy
-        @article = Article.find(params[:id])
+        
         @article.destroy
         redirect_to articles_path # /articles
+    end
+
+    private # only accessable via controller, not outside that.
+    def set_article
+        @article = Article.find(params[:id])
+    end
+
+    def article_params_white_wash
+        params.require(:article).permit(:title, :description)
     end
 
 
