@@ -4,6 +4,20 @@ class UsersController < ApplicationController
         @user = User.new
     end
 
+    def edit
+        @user = User.find(params[:id])
+    end
+
+    def update
+        @user = User.find(params[:id])
+        if @user.update(user_params_ww)
+            flash[:notice] = "Your account was successfully updated."
+            redirect_to articles_path
+        else
+            render 'edit'
+        end
+    end
+
     def create
         #byebug
         @user = User.new(user_params_ww)
@@ -14,6 +28,7 @@ class UsersController < ApplicationController
             render 'new'
         end
     end
+
 
     private
 
