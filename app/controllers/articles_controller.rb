@@ -28,6 +28,7 @@ class ArticlesController < ApplicationController
         # @article = Article.new(params[:article]) # won't work
         # whitelist the :title & description data in the article hash:
         @article = Article.new(article_params_white_wash)
+        @article.user = User.first
         #render plain: @article.inspect
         if @article.save
             flash[:notice] = "Article was created successfully."
