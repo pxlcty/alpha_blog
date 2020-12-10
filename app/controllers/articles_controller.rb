@@ -1,6 +1,8 @@
 class ArticlesController < ApplicationController
 
     before_action :set_article, only: [:show, :edit, :update, :destroy]
+    before_action :require_user, except: [:show, :index]
+    before_action :require_same_user, only: [:edit, :update, :destroy]
 
     def index
         #@articles = Article.all
@@ -9,7 +11,6 @@ class ArticlesController < ApplicationController
 
     def show
         #byebug
-        
     end
 
     def new
@@ -18,7 +19,6 @@ class ArticlesController < ApplicationController
 
     def edit
         #byebug
-        
     end
 
     def create
@@ -29,7 +29,7 @@ class ArticlesController < ApplicationController
         # @article = Article.new(params[:article]) # won't work
         # whitelist the :title & description data in the article hash:
         @article = Article.new(article_params_white_wash)
-        @article.user = User.first
+        @article.user = current_user
         #render plain: @article.inspect
         if @article.save
             flash[:notice] = "Article was created successfully."
@@ -46,7 +46,6 @@ class ArticlesController < ApplicationController
 
     def update
         #byebug
-        
         if @article.update(article_params_white_wash)
             flash[:notice] = "Article was updated successfully."
             redirect_to @article
@@ -68,6 +67,13 @@ class ArticlesController < ApplicationController
 
     def article_params_white_wash
         params.require(:article).permit(:title, :description)
+    end
+
+    def require_same_user
+        if current_user != @article.user
+            flash[:alert] = "You can only edit or delete your own article"
+            redirect_to @article
+        end
     end
 
 
