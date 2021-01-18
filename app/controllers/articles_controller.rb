@@ -22,7 +22,7 @@ class ArticlesController < ApplicationController
     end
 
     def create
-        byebug
+        
         # in the Rails S output we can see the Parameter hash.
         # in that hash, we can see one of the keys are "article" hence we pull it out below to display basic output.
         # render plain: params[:article]

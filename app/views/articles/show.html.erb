@@ -8,6 +8,10 @@
             <div class="card-header font-italic">
                 by <%= @article.user.username %>
                 <%= link_to gravatar_for(@article.user), user_path(@article.user) %>
+                <% if @article.categories.any? %>
+                    <!-- below renders the partials '_category.html.erb', and iterates over the @article.categories, with a each element of 'category' -->
+                    <div class="mt-2"><%= render @article.categories %></div>
+                <% end %>
             </div>
             <div class="card-body">
                 <div class="card-text text-left"><%= simple_format(@article.description) %></div>
