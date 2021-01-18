@@ -22,6 +22,7 @@ class ArticlesController < ApplicationController
     end
 
     def create
+        byebug
         # in the Rails S output we can see the Parameter hash.
         # in that hash, we can see one of the keys are "article" hence we pull it out below to display basic output.
         # render plain: params[:article]
@@ -66,7 +67,7 @@ class ArticlesController < ApplicationController
     end
 
     def article_params_white_wash
-        params.require(:article).permit(:title, :description)
+        params.require(:article).permit(:title, :description, category_ids: [])
     end
 
     def require_same_user

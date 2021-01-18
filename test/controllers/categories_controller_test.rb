@@ -1,5 +1,8 @@
 require 'test_helper'
 
+  # TO ONLY RUN CONTROLLER TESTS use:
+  # $ rails test test/controllers
+
 class CategoriesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @category = Category.create(name: "Sports")

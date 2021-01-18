@@ -2,12 +2,13 @@ require 'test_helper'
 
 class CategoryTest < ActiveSupport::TestCase
 
-    def setup # runs as first line in every test below : 
+    # runs as first line in EVERY TEST below.
+    # Use this as a prepp value for the test.
+    def setup 
         @category = Category.new(name: "Sports")
     end
 
     test "category should be valid" do
-
         assert @category.valid?
     end
 
